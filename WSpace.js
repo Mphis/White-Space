@@ -1,24 +1,69 @@
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.moveTo(0,0);
-ctx.lineTo(200,100);
-ctx.stroke();/*var drawing =( function() {
-		var context,
-			canvas;
+if(window.addEventListener) {
+window.addEventListener('load', function () {
+  var canvas;
+  var context;
+  var drawwith;
+
+  function whitespace (ev) {
+    if (ev.layerX || ev.layerX == 0) {
+      ev._x = ev.layerX;
+      ev._y = ev.layerY;
+    }
+    // Call the event handler of the drawwith.
+    var func = drawwith[ev.type];
+    if (func) {
+      func(ev);
+    }
+  }
+
+ //mouse events
+  function drawing () {
+    var drawwith = this;
+    this.started = false;
 
 
-    init= function ()	
+    this.mousedown = function (ev) {
+    context.beginPath();
+    context.moveTo(ev._x, ev._y);
+    drawwith.started = true;
+    };
 
-	{
-	
-		canvas=document.getElementById('whitecanvas');
+    this.mousemove = function (ev) {
+      if (drawwith.started) {
+        context.lineTo(ev._x, ev._y);
+        context.stroke();
+      }
+    };
 
-		context=document.getElementById('whitecanvas').getContext("2d");
-		context.beginPath(); 
-		context.font = "30px Arial";
-		context.fillText("Hello World",100,50);
-  	}
+    this.mouseup = function (ev) {
+      if (drawwith.started) {
+        drawwith.mousemove(ev);
+        drawwith.started = false;
+      }
+      
+    };
+  }
 
-	}
+  var channel = 'my-draw-demo';
 
-	)*/
+  var pubnub = PUBNUB.init({
+    publish_key: 'pub-c-aafabe68-383b-4c77-a1d5-9755f5d4b37f',
+    subscribe_key: 'sub-c-8038c29a-24cc-11e8-be22-c2fd0b475b93',
+    ssl: true
+  });
+
+
+  function init () {
+    canvas = document.getElementById('whiteboard');
+    context = canvas.getContext('2d');
+    drawwith = new drawing();
+    canvas.addEventListener('mousedown', whitespace, false);
+    canvas.addEventListener('mousemove', whitespace, false);
+    canvas.addEventListener('mouseup',   whitespace, false);
+  }
+
+
+
+  init();
+
+}, false); }
