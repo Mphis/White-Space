@@ -13,9 +13,9 @@ window.addEventListener('load', function () {
       ev._x = ev.layerX;
       ev._y = ev.layerY;
     }
-    var x = e.offsetX - canvas.offsetLeft;
-    var y = e.offsetY - canvas.offsetTop;
-    drawOnCanvas(plots);
+     var x = e.offsetX || e.layerX - canvas.offsetLeft;
+     var x = e.offsetY || e.layerY - canvas.offsetTop;
+     drawOnCanvas(plots);
 
 
     plots.push({x: x, y: y});
