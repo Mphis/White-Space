@@ -3,6 +3,9 @@ window.addEventListener('load', function () {
   var canvas;
   var context;
   var drawwith;
+  var color = 'yellowgreen';
+  var plots = [];
+
 
   function whitespace (ev) {
     if (ev.layerX || ev.layerX == 0) {
@@ -13,8 +16,51 @@ window.addEventListener('load', function () {
     var func = drawwith[ev.type];
     if (func) {
       func(ev);
+    var x = e.offsetX || e.layerX - canvas.offsetLeft;
+    var y = e.offsetY || e.layerY - canvas.offsetTop;
+
+    plots.push({x: x, y: y});
+
+    drawOnCanvas(plots);
     }
+
+    //accessing API
+    pubnub.publish({
+    channel: channel,
+    message: {
+        plots: plots
+    }
+    });
+    pubnub.subscribe({
+    channel: channel,
+    callback: drawFromStream
+
+    });
+
+
   }
+
+  function drawFromStream(message) {
+    if(!message) return;
+
+    context.beginPath();
+    drawOnCanvas(message.plots);
+  }
+
+  function drawOnCanvas(color, plots) {
+    ctx.beginPath();
+    ctx.moveTo(plots[0].x, plots[0].y);
+
+    for(var i=1; i<plots.length; i++) {
+      ctx.lineTo(plots[i].x, plots[i].y);
+    }
+    ctx.stroke();
+  }
+
+
+
+
+
 
  //mouse events
   function drawing () {
@@ -39,10 +85,19 @@ window.addEventListener('load', function () {
       if (drawwith.started) {
         drawwith.mousemove(ev);
         drawwith.started = false;
+        plots= [];
       }
-      
+
     };
   }
+
+
+
+
+
+
+
+
 
   var channel = 'my-draw-demo';
 
