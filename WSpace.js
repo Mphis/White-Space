@@ -74,6 +74,7 @@ window.addEventListener('load', function () {
     context.beginPath();
     context.moveTo(ev._x, ev._y);
     drawwith.started = true;
+      plots.push({x: (x<<0), y: (y<<0)})
     };
 
     this.mousemove = function (ev) {
