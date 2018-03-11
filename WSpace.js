@@ -5,6 +5,7 @@ window.addEventListener('load', function () {
   var drawwith;
   var color = 'yellowgreen';
   var plots = [];
+  var isActive = false;
 
 
   function whitespace (ev) {
@@ -12,8 +13,8 @@ window.addEventListener('load', function () {
       ev._x = ev.layerX;
       ev._y = ev.layerY;
     }
-    var x = e.offsetX || e.layerX - canvas.offsetLeft;
-    var y = e.offsetY || e.layerY - canvas.offsetTop;
+    var x = e.offsetX - canvas.offsetLeft;
+    var y = e.offsetY - canvas.offsetTop;
     drawOnCanvas(plots);
 
 
