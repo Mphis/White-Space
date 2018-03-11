@@ -5,7 +5,6 @@ window.addEventListener('load', function () {
   var drawwith;
   var color = 'yellowgreen';
   var plots = [];
-  var isActive = false;
 
 
   function whitespace (ev) {
@@ -13,16 +12,16 @@ window.addEventListener('load', function () {
       ev._x = ev.layerX;
       ev._y = ev.layerY;
     }
-     var x = e.offsetX || e.layerX - canvas.offsetLeft;
-     var x = e.offsetY || e.layerY - canvas.offsetTop;
-     drawOnCanvas(plots);
-
-
-    plots.push({x: x, y: y});
     // Call the event handler of the drawwith.
     var func = drawwith[ev.type];
     if (func) {
       func(ev);
+    var x = e.offsetX || e.layerX - canvas.offsetLeft;
+    var y = e.offsetY || e.layerY - canvas.offsetTop;
+
+    plots.push({x: x, y: y});
+
+    drawOnCanvas(plots);
     }
 
     //accessing API
@@ -128,3 +127,4 @@ window.addEventListener('load', function () {
   init();
 
 }, false); }
+
