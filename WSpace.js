@@ -27,7 +27,7 @@ window.addEventListener('load', function () {
     //accessing API
 
       pubnub.subscribe({
-        channel: channel,
+        channels: drawwhitespace,
         callback: drawFromStream
 
         });
@@ -38,7 +38,7 @@ window.addEventListener('load', function () {
 
   function publish(data) {
   		pubnub.publish({
-  			channel: channel,
+  			channel: drawwhitespace,
   			message: data
   		});
     }
@@ -109,7 +109,7 @@ window.addEventListener('load', function () {
     publish_key: 'pub-c-aafabe68-383b-4c77-a1d5-9755f5d4b37f',
     subscribe_key: 'sub-c-8038c29a-24cc-11e8-be22-c2fd0b475b93',
     leave_on_unload : true,
-    ssl		: document.location.protocol === "https:"
+    ssl		: true
   });
 
 
